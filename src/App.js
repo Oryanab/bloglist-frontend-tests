@@ -6,6 +6,7 @@ const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showAddTicket, setShowAddTicket] = useState("none");
   const [user, setUser] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const titleRef = useRef("");
@@ -13,6 +14,7 @@ const App = () => {
   const urlRef = useRef("");
   const likesRef = useRef(0);
 
+  useEffect(() => {}, [showAddTicket]);
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
   }, []);
@@ -98,8 +100,33 @@ const App = () => {
     document.cookie = `name=${token.name}; expires=${inFiveMinutes}`;
   };
 
+  function deleteAllCookies() {
+    var cookies = document.cookie.split(";");
+
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i];
+      var eqPos = cookie.indexOf("=");
+      var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
+  }
+
+  const currentConnected = () => (
+    <div>
+      <h3>{getCookie("name")} is logged in</h3>
+      <button
+        onClick={(e) => {
+          deleteAllCookies();
+          window.location.reload();
+        }}
+      >
+        Logout
+      </button>
+    </div>
+  );
+
   const blogForm = () => (
-    <form>
+    <form style={{ display: showAddTicket }}>
       <label htmlFor="title">title</label>
       <input ref={titleRef} type="text" name="title" />
       <br />
@@ -130,10 +157,24 @@ const App = () => {
     </form>
   );
 
+  const toggleForm = () => (
+    <button
+      onClick={(e) => {
+        e.preventDefault();
+        setShowAddTicket(showAddTicket === "none" ? "block" : "none");
+      }}
+    >
+      {showAddTicket === "none" ? "show Form" : "hide Form"}
+    </button>
+  );
+
   return (
     <div>
       {user === null && loginForm()}
+      {user !== null && currentConnected()}
       {user !== null && blogForm()}
+      {user !== null && toggleForm()}
+
       <h2>blogs</h2>
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />

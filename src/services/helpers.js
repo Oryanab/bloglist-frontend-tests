@@ -22,4 +22,9 @@ const addBlog = async (blogObject, userAuth) => {
   return response.data;
 };
 
-export default { getAll, login, addBlog };
+const removeBlog = async (id) => {
+  const response = await axios.delete(`${baseUrl}/${id}`);
+  return response.data;
+};
+
+export default { getAll, login, addBlog, removeBlog };
