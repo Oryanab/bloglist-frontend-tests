@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
-import Blog from "./components/Blog";
 import blogService from "./services/helpers";
+import Blog from "./components/Blog";
+import ToggleBlog from "./components/ShowBlog";
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showAddTicket, setShowAddTicket] = useState("none");
+  const [showBlogs, setShowBlogs] = useState("none");
   const [user, setUser] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [blogs, setBlogs] = useState([]);
   const titleRef = useRef("");
   const authorRef = useRef("");
   const urlRef = useRef("");
@@ -176,9 +178,12 @@ const App = () => {
       {user !== null && toggleForm()}
 
       <h2>blogs</h2>
-      {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
-      ))}
+      <ToggleBlog showBlogs={showBlogs} setShowBlogs={setShowBlogs} />
+      <div className="blogs-div" style={{ display: showBlogs }}>
+        {blogs.map((blog) => (
+          <Blog key={blog["_id"]} blog={blog} />
+        ))}
+      </div>
     </div>
   );
 };
