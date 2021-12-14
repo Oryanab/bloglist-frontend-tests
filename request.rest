@@ -1,0 +1,36 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "blog 1",
+    "author": "author 1",
+    "url": "a url",
+    "likes": 77
+}
+
+###
+GET http://localhost:3003/api/blogs
+
+###
+GET http://localhost:3003/api/users
+
+###
+
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "mluukkai",
+      "name": "Matti Luukkainen",
+      "password": "salainen",
+      "blogs": []
+}
+
+###
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+    "username": "mluukkai",
+    "password": "salainen" 
+}
