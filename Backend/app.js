@@ -18,15 +18,15 @@ app.get("/api/blogs", async (request, response) => {
   response.status(200).json(blogs);
 });
 
-const getTokenFrom = (request) => {
-  const authorization = request.get("authorization");
-  if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
+const getTokenFrom = (authorization) => {
+  if (authorization && authorization.toLowerCase().startsWith("Bearer ")) {
     return authorization.substring(7);
   }
   return null;
 };
 
 app.post("/api/blogs", checkRequest, async (request, response) => {
+  console.log(request.headers);
   const blog = new Blog({
     title: request.body.title,
     author: request.body.author,
@@ -35,8 +35,8 @@ app.post("/api/blogs", checkRequest, async (request, response) => {
   });
   const savedBlog = await blog.save();
 
-  if (request.headers.authorization) {
-    const token = getTokenFrom(request.headers.authorization);
+  if (request.headers["authorization"]) {
+    const token = getTokenFrom(request.headers["authorization"]);
     const decodedToken = jwt.verify(token, process.env.SECRET);
     if (token && decodedToken.id) {
       const user = await User.findById(decodedToken.id);
