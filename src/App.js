@@ -49,6 +49,7 @@ const App = () => {
       <div>
         username
         <input
+          id="username"
           type="text"
           value={username}
           name="Username"
@@ -58,13 +59,16 @@ const App = () => {
       <div>
         password
         <input
+          id="password"
           type="password"
           value={password}
           name="Password"
           onChange={({ target }) => setPassword(target.value)}
         />
       </div>
-      <button type="submit">login</button>
+      <button id="login" type="submit">
+        login
+      </button>
     </form>
   );
 
@@ -75,6 +79,7 @@ const App = () => {
       url: urlRef.current.value,
       likes: likesRef.current.value,
     };
+
     return blogObject;
   };
 
@@ -117,6 +122,7 @@ const App = () => {
     <div>
       <h3>{getCookie("name")} is logged in</h3>
       <button
+        id="logout-button"
         onClick={(e) => {
           deleteAllCookies();
           window.location.reload();
@@ -130,19 +136,19 @@ const App = () => {
   const blogForm = () => (
     <form style={{ display: showAddTicket }}>
       <label htmlFor="title">title</label>
-      <input ref={titleRef} type="text" name="title" />
+      <input id="title-input" ref={titleRef} type="text" name="title" />
       <br />
 
       <label htmlFor="author">author</label>
-      <input ref={authorRef} type="text" name="author" />
+      <input id="author-input" ref={authorRef} type="text" name="author" />
       <br />
 
       <label htmlFor="url">url</label>
-      <input ref={urlRef} type="text" name="url" />
+      <input id="url-input" ref={urlRef} type="text" name="url" />
       <br />
 
       <label htmlFor="likes">likes</label>
-      <input ref={likesRef} type="number" name="likes" />
+      <input id="likes-input" ref={likesRef} type="number" name="likes" />
       <br />
 
       <button
@@ -151,6 +157,11 @@ const App = () => {
           console.log(getCookie("token"));
           console.log(getBlogObject(event));
           blogService.addBlog(getBlogObject(event), getCookie("token"));
+          titleRef.current.value = "";
+          authorRef.current.value = "";
+          urlRef.current.value = "";
+          likesRef.current.value = "";
+          setShowAddTicket("none");
         }}
         type="submit"
       >
@@ -161,6 +172,7 @@ const App = () => {
 
   const toggleForm = () => (
     <button
+      id="toggleForm"
       onClick={(e) => {
         e.preventDefault();
         setShowAddTicket(showAddTicket === "none" ? "block" : "none");

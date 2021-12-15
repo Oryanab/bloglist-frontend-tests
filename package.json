@@ -25,6 +25,7 @@
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^11.2.7",
     "cross-env": "^7.0.3",
+    "cypress": "^9.1.1",
     "nodemon": "^2.0.15"
   },
   "scripts": {
@@ -32,7 +33,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev": "cross-env NODE_ENV=development nodemon ./Backend/index.js"
+    "dev": "cross-env NODE_ENV=development nodemon ./Backend/index.js",
+    "cypress:open": "cypress open",
+    "start:test": "cross-env NODE_ENV=test node index.js",
+    "test:e2e": "cypress run"
   },
   "eslintConfig": {
     "extends": [

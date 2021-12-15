@@ -7,11 +7,16 @@ const usersRouter = require("./users");
 const loginRouter = require("./login");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+const testingRouter = require("./envTest");
 
 app.use(cors());
 app.use(express.json());
 app.use("/api/users", usersRouter);
 app.use("/api/login", loginRouter);
+
+// if (process.env.NODE_ENV === "test") {
+app.use("/api/testing", testingRouter);
+//}
 
 app.get("/api/blogs", async (request, response) => {
   const blogs = await Blog.find({});
